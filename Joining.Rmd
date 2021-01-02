@@ -1,0 +1,80 @@
+---
+title: "Joining data in R"
+author: "Tao Huang"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r packages, echo=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(kableExtra)
+library(xtable)
+```
+
+```{r, hide=T, echo=FALSE, results='hide'}
+#Bull trout occ:
+
+# USGS 10315600 MARYS RV BLW TWIN BUTTES NR DEETH, NV
+# USGS 13335050 ASOTIN CREEK AT ASOTIN, WA  
+# USGS 13344500 TUCANNON RIVER NEAR STARBUCK, WA
+# USGS 14017000 TOUCHET RIVER AT BOLLES, WA
+  
+```
+
+```{r, hide=T, echo=FALSE, results='hide'}
+trout <- data.frame("River" = c("MARYS River","ASOTIN CREEK","TUCANNON RIVER"), "trout_count" = c(1,4,6))
+
+```
+
+```{r, echo=FALSE}
+kable(trout , caption = " trout", format = "pipe")
+```
+
+```{r, hide=T, echo=FALSE, results='hide'}
+river<- data.frame("River" = c("MARYS River","ASOTIN CREEK","HUDSON RIVER"), "state" = c("Nevada","Washington","New York"))
+```
+
+```{r, echo=FALSE}
+kable(river , caption = " river", format = "pipe")
+```
+
+```{r, hide=T, echo=FALSE, results='hide'}
+River_State_Trout<- inner_join(river,trout ,by="River")
+River_State_Trout_outer<- full_join(river,trout ,by="River")
+River_State_Trout_left<- left_join(river,trout ,by="River")
+River_State_Trout_right<- right_join(river,trout ,by="River")
+```
+
+**River_State_Trout <- inner_join(trout ,river,by="River")**
+
+inner_join(): includes all rows in x and y.
+
+```{r, echo=FALSE}
+kable(River_State_Trout , caption = " Inner join", format = "pipe")
+```
+
+**River_State_Trout <- full_join(trout ,river,by="River")**
+
+full_join(): includes all rows in x or y.
+
+```{r, echo=FALSE}
+kable(River_State_Trout_outer , caption = " Full join", format = "pipe")
+```
+
+**River_State_Trout <- left_join(river,trout,by="River")**
+
+left_join(): includes all rows in x.
+
+```{r, echo=FALSE}
+kable(River_State_Trout_left , caption = " Left join", format = "pipe")
+```
+
+**River_State_Trout <- right_join(river,trout,by="River")**
+
+right_join(): includes all rows in y.
+
+```{r, echo=FALSE}
+kable(River_State_Trout_right , caption = " Right join", format = "pipe")
+```
